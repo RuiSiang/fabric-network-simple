@@ -1,4 +1,5 @@
 # fabric-network-simple
+![](https://github.com/RuiSiang/fabric-network-simple/workflows/Node.js%20CI/badge.svg)
 A simplified wrapper for fabric-network. Typescript usage is recommended for auto config checks.
 
 ## Installation
