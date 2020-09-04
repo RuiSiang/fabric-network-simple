@@ -11,7 +11,7 @@ yarn add fabric-network-simple
 
 ##Include
 ```typescript
-import fabricNetworkSimple from "./fabric-network-simple";
+import fabricNetworkSimple from "fabric-network-simple";
 ```
 
 ## Configuration
