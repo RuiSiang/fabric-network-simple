@@ -1,0 +1,29 @@
+{
+  "name": "fabric-network-simple",
+  "version": "1.0.0",
+  "description": "A simplified wrapper for fabric-network",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuiSiang/fabric-network-simple.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RuiSiang/fabric-network-simple/issues"
+  },
+  "homepage": "https://github.com/RuiSiang/fabric-network-simple#readme",
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "fabric-network": "^2.2.2"
+  }
+}
