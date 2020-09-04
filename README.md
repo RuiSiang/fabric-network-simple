@@ -99,7 +99,7 @@ Say we have a query function "set", and invoke function "get" that gets/sets a n
 ```typescript
 //initializes gateway (returns true for success, false for fail)
 const gatewayInitResult = 
-  await fabricNetworkSimple.initGatesay(
+  await fabricNetworkSimple.initGateway(
     config //config object, see example config section
   );
 
