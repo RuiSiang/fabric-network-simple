@@ -1,6 +1,6 @@
 {
   "name": "fabric-network-simple",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simplified wrapper for fabric-network",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/RuiSiang/fabric-network-simple.git"
   },
-  "keywords": [],
+  "keywords": ["hyperledger","fabric", "fabric-network", "node-sdk", "node", "nodejs"],
   "author": "",
   "license": "MIT",
   "bugs": {
