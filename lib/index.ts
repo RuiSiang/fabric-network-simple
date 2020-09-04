@@ -1,45 +1,91 @@
-import * as fs from "fs";
 import {
   Wallets,
+  X509Identity,
   Gateway,
   GatewayOptions,
-  DefaultEventHandlerStrategies,
   TransientMap,
   Contract,
 } from "fabric-network";
 
-const mspid: string = process.env.sdkMspId || "Org1MSP";
+export interface config {
+  channelName: string;
+  contractName: string;
+  connectionProfile: {
+    name: string;
+    version: string;
+    channels: {
+      [channelName: string]: {
+        orderers: string[];
+        peers: string[];
+      };
+    };
+    organizations: {
+      [orgName: string]: {
+        mspid: string;
+        peers: string[];
+        certificateAuthorities: string[];
+      };
+    };
+    orderers: {
+      [ordererName: string]: {
+        url: string;
+        grpcOptions: { "ssl-target-name-override": string };
+        tlsCACerts: { path: string };
+      };
+    };
+    peers: {
+      [peerName: string]: {
+        url: string;
+        grpcOptions: { "ssl-target-name-override": string };
+        tlsCACerts: { path: string };
+      };
+    };
+  };
+  identity: {
+    mspid: string;
+    certificate: string;
+    privateKey: string;
+  };
+  settings: {
+    enableDiscovery: boolean;
+    asLocalhost: boolean;
+  };
+}
 
 let contract: Contract;
-async function initGateway() {
+export async function initGateway(config: config) {
   try {
-    const connectionProfileJson = fs
-      .readFileSync(`./config/connectionprofile-${mspid}.json`)
-      .toString();
-    const connectionProfile = JSON.parse(connectionProfileJson);
-    const wallet = await Wallets.newFileSystemWallet("./config/wallets");
+    const wallet = await Wallets.newInMemoryWallet();
+    const x509Identity: X509Identity = {
+      credentials: {
+        certificate: config.identity.certificate,
+        privateKey: config.identity.privateKey,
+      },
+      mspId: config.identity.mspid,
+      type: "X.509",
+    };
+    await wallet.put(config.identity.mspid, x509Identity);
     const gatewayOptions: GatewayOptions = {
-      identity: mspid,
+      identity: config.identity.mspid,
       wallet,
-      discovery: { enabled: false, asLocalhost: false },
-      eventHandlerOptions: {
-        strategy: DefaultEventHandlerStrategies.MSPID_SCOPE_ALLFORTX,
+      discovery: {
+        enabled: config.settings.enableDiscovery,
+        asLocalhost: config.settings.asLocalhost,
       },
     };
     const gateway = new Gateway();
-    await gateway.connect(connectionProfile, gatewayOptions);
-    const network = await gateway.getNetwork("myc");
-    contract = network.getContract("iovcases");
+    await gateway.connect(config.connectionProfile, gatewayOptions);
+    const network = await gateway.getNetwork(config.channelName);
+    contract = network.getContract(config.contractName);
   } catch (error) {
     console.log(error);
   }
 }
-initGateway();
 
 interface queryChaincodeResponse {
   queryResult: string;
 }
-async function queryChaincode(transaction: string, args: string[]) {
+export async function queryChaincode(transaction: string, args: string[]) {
   try {
     const queryResult = await contract.evaluateTransaction(
       transaction,
@@ -60,7 +106,7 @@ async function queryChaincode(transaction: string, args: string[]) {
 interface invokeChaincodeResponse {
   invokeResult: string;
 }
-async function invokeChaincode(
+export async function invokeChaincode(
   transaction: string,
   args: string[],
   transient: TransientMap = {}
@@ -81,5 +127,3 @@ async function invokeChaincode(
     );
   }
 }
-
-export default { invokeChaincode, queryChaincode};
