@@ -1,19 +1,19 @@
 {
   "name": "fabric-network-simple",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simplified wrapper for fabric-network",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RuiSiang/fabric-network-simple.git"
   },
-  "keywords": [],
+  "keywords": ["hyperledger","fabric", "fabric-network", "node-sdk", "node", "nodejs"],
   "author": "",
   "license": "MIT",
   "bugs": {

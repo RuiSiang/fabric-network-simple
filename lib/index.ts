@@ -79,6 +79,9 @@ export async function initGateway(config: config) {
     contract = network.getContract(config.contractName);
   } catch (error) {
     console.log(error);
+    return false;
+  } finally {
+    return true;
   }
 }
 
