@@ -97,21 +97,24 @@ const config: fabricNetworkSimple.config = {
 ## Usage
 Say we have a query function "set", and invoke function "get" that gets/sets a number to a variable on the chaincode
 ```typescript
-//initializes gateway (returns true for success, false for fail)
-const gatewayInitResult = 
-  await fabricNetworkSimple.initGateway(
+//constructor
+const fabricNetwork = 
+  new fabricNetworkSimple(
     config //config object, see example config section
   );
 
 //sets variable to 5
 const invokeResult = 
-  await fabricNetworkSimple.invokeChaincode(
-    'set', [5], {}
+  await fabricNetwork.invokeChaincode(
+    'set', //chaincode method
+    [5], //arguments
+    {} //transient data
   );
 //gets variable from ledger
 const queryResult = 
-  await fabricNetworkSimple.queryChaincode(
-    'get', []
+  await fabricNetwork.queryChaincode(
+    'get', //chaincode method
+    [] //arguments
   );
 console.log('queryResult'); //prints 5
 ```
